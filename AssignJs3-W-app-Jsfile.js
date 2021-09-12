@@ -17,21 +17,33 @@ const api_details = {
 
 const { key, api_url } = api_details;
 
-let user_entered_city = null;
+let user_entered_city=null;
+console.log(user_entered_city);
+//enter key search
+input_value.addEventListener("keyup",(e)=>{
+  if (e.keyCode === 13){
+    console.log("asdasd");
+    searchCity()
+  }
+})
+  //click button search
+input_button.addEventListener("click",()=>{
+  searchCity()
+})
 
-input_button.addEventListener("click", async (e) => {
+async function searchCity() {
   user_entered_city = input_value.value;
 
   if (user_entered_city) {
     input_value.value = "";
     let data_get_from_api = await weather(user_entered_city);
     append_information_on_html(data_get_from_api);
-    console.log(data_get_from_api);
+  
   } else {
     alert("Enter value first");
   }
-});
-
+  
+}
 // api request method
 // request from server
 async function weather(user_cityy) {
@@ -39,9 +51,10 @@ async function weather(user_cityy) {
     const response_data = await axios.get(
       `${api_url}${user_cityy}&appid=${key}`
     );
-    console.log(response_data);
+   
     return response_data;
   } catch (err) {
+    console.log(err);
     alert("Enter correct city name or check your internet connection");
     return {
       status: false,
